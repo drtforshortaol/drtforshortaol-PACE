@@ -47,6 +47,25 @@ def cycle(config, tasks):
     after = {s: sum(t["status"] == s for t in tasks) for s in before}
     return {"before": before, "after": after, "assignments": [{"id": t["id"], "worker": t["worker"]} for t in tasks if t["status"] == "assigned"], "note": "Assignments only; no agents executed."}
 
+def validate_finding(finding, contract):
+    """Validate RDE exchange metadata without changing source evidence."""
+    if not isinstance(finding, dict):
+        raise ValueError("finding must be an object")
+    missing = [key for key in contract["required"] if key not in finding]
+    if missing:
+        raise ValueError("missing fields: " + ", ".join(missing))
+    if finding["status"] not in contract["statuses"]:
+        raise ValueError("invalid research status")
+    for key in ("finding_id", "subject_id", "scope", "collected_at", "evidence"):
+        if not isinstance(finding[key], str) or not finding[key].strip():
+            raise ValueError("invalid field: " + key)
+    if not isinstance(finding["source"], dict) or not all(
+        isinstance(finding["source"].get(key), str) and finding["source"][key].strip()
+        for key in ("uri", "title")
+    ):
+        raise ValueError("source uri and title required")
+    return True
+
 def transition(config, tasks, task_id, outcome, evidence):
     """Record a validated result without changing unrelated tasks."""
     if outcome not in ("completed", "failed"):
@@ -71,6 +90,7 @@ def main():
     path = ROOT / "state/tasks.json"
     tasks = load(path)
     validate(config, tasks)
+    assert validate_finding(load(ROOT / "research/example-finding.json"), load(ROOT / "research/contract.v0.1.json"))
     if args.action == "cycle":
         result = cycle(config, tasks)
     elif args.action in ("complete", "fail"):
