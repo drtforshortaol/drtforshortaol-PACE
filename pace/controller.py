@@ -47,6 +47,20 @@ def cycle(config, tasks):
     after = {s: sum(t["status"] == s for t in tasks) for s in before}
     return {"before": before, "after": after, "assignments": [{"id": t["id"], "worker": t["worker"]} for t in tasks if t["status"] == "assigned"], "note": "Assignments only; no agents executed."}
 
+def transition(config, tasks, task_id, outcome, evidence):
+    """Record a validated result without changing unrelated tasks."""
+    if outcome not in ("completed", "failed"):
+        raise ValueError("invalid outcome")
+    if not isinstance(evidence, str) or not evidence.strip():
+        raise ValueError("nonempty evidence required")
+    task = next((t for t in tasks if t["id"] == task_id and t["status"] == "assigned"), None)
+    if task is None:
+        raise ValueError("task must be assigned")
+    task["status"] = outcome
+    task["evidence"] = evidence.strip()
+    validate(config, tasks)
+    return {"id": task_id, "status": outcome, "evidence": task["evidence"]}
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("action", choices=["cycle", "status", "validate", "complete", "fail"])
@@ -60,13 +74,10 @@ def main():
     if args.action == "cycle":
         result = cycle(config, tasks)
     elif args.action in ("complete", "fail"):
-        task = next((t for t in tasks if t["id"] == args.task and t["status"] == "assigned"), None)
-        if not task or not args.evidence:
-            parser.error("assigned task and evidence required")
-        task["status"] = "completed" if args.action == "complete" else "failed"
-        task["evidence"] = args.evidence
-        validate(config, tasks)
-        result = {"id": task["id"], "status": task["status"]}
+        try:
+            result = transition(config, tasks, args.task, "completed" if args.action == "complete" else "failed", args.evidence)
+        except ValueError as exc:
+            parser.error(str(exc))
     else:
         result = {"valid": True, "tasks": tasks} if args.action == "status" else {"valid": True}
     if args.action in ("cycle", "complete", "fail"):
