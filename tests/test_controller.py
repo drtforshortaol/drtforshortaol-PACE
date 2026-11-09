@@ -1,6 +1,6 @@
 import unittest
 from copy import deepcopy
-from pace.controller import ROOT, load, validate, cycle, within, transition
+from pace.controller import ROOT, load, validate, cycle, within, transition, validate_finding
 
 class ControllerTests(unittest.TestCase):
     def setUp(self):
@@ -45,6 +45,25 @@ class ControllerTests(unittest.TestCase):
         transition(self.config, self.tasks, "EATERY-R01", "completed", "review:123")
         with self.assertRaises(ValueError):
             transition(self.config, self.tasks, "EATERY-R01", "completed", "review:124")
+
+    def test_rde_contract_fixture(self):
+        contract = load(ROOT / "research/contract.v0.1.json")
+        finding = load(ROOT / "research/example-finding.json")
+        self.assertTrue(validate_finding(finding, contract))
+
+    def test_rde_rejects_unverified_missing_source(self):
+        contract = load(ROOT / "research/contract.v0.1.json")
+        finding = load(ROOT / "research/example-finding.json")
+        finding["source"] = {}
+        with self.assertRaises(ValueError):
+            validate_finding(finding, contract)
+
+    def test_rde_rejects_unknown_status(self):
+        contract = load(ROOT / "research/contract.v0.1.json")
+        finding = load(ROOT / "research/example-finding.json")
+        finding["status"] = "made_up"
+        with self.assertRaises(ValueError):
+            validate_finding(finding, contract)
 
     def test_path_boundaries(self):
         self.assertFalse(within("researcher/x", "research/"))
