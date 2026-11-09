@@ -1,0 +1,15 @@
+{
+  "before": {
+    "ready": 2,
+    "assigned": 0,
+    "completed": 0,
+    "failed": 0
+  },
+  "after": {
+    "ready": 0,
+    "assigned": 2,
+    "completed": 0,
+    "failed": 0
+  },
+  "note": "Local prototype assignment demonstration; no autonomous workers executed."
+}
