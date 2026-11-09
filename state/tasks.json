@@ -1,0 +1,24 @@
+[
+  {
+    "id": "EATERY-R01",
+    "module": "rde",
+    "scope": "research/eatery-audit/",
+    "preferred_worker": "A",
+    "worker": "A",
+    "status": "assigned",
+    "priority": 10,
+    "acceptance": "Sourced audit of one restaurant; no production writes.",
+    "evidence": null
+  },
+  {
+    "id": "EATERY-T01",
+    "module": "controller",
+    "scope": "app/eatery-tests/",
+    "preferred_worker": "B",
+    "worker": "B",
+    "status": "assigned",
+    "priority": 10,
+    "acceptance": "Non-destructive test plan for basket; no production writes.",
+    "evidence": null
+  }
+]

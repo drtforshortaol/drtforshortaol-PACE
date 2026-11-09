@@ -1,0 +1,33 @@
+{
+  "project": "PACE",
+  "version": "0.1",
+  "pilot_repository": "drtforshortaol/MBA-nearby-dining",
+  "production_writes_allowed": false,
+  "workers": [
+    "A",
+    "B"
+  ],
+  "modules": {
+    "controller": {
+      "owns": [
+        "state/"
+      ],
+      "depends_on": [
+        "age",
+        "rde"
+      ]
+    },
+    "age": {
+      "owns": [
+        "config/ownership.json"
+      ],
+      "depends_on": []
+    },
+    "rde": {
+      "owns": [
+        "research/"
+      ],
+      "depends_on": []
+    }
+  }
+}

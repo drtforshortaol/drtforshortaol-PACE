@@ -1,0 +1,38 @@
+{
+  "schema_version": "0.1",
+  "description": "RDE research finding exchange contract; evidence remains owned by RDE.",
+  "required": [
+    "finding_id",
+    "subject_id",
+    "scope",
+    "status",
+    "source",
+    "collected_at",
+    "evidence"
+  ],
+  "statuses": [
+    "missing",
+    "not_researched",
+    "in_progress",
+    "provisional",
+    "unverified",
+    "verified",
+    "conflicting",
+    "historical",
+    "not_applicable"
+  ],
+  "fields": {
+    "finding_id": "stable string",
+    "subject_id": "stable string",
+    "scope": "defined research scope",
+    "status": "one of statuses",
+    "source": {
+      "uri": "source locator",
+      "title": "source title"
+    },
+    "collected_at": "ISO-8601 timestamp",
+    "evidence": "verbatim excerpt or faithful summary",
+    "last_reviewed_at": "optional ISO-8601 timestamp",
+    "corrections": "optional append-only history"
+  }
+}

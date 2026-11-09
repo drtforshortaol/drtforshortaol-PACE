@@ -1,0 +1,12 @@
+{
+  "finding_id": "EXAMPLE-001",
+  "subject_id": "DEMO-RESTAURANT",
+  "scope": "schema demonstration only",
+  "status": "not_researched",
+  "source": {
+    "uri": "internal:example",
+    "title": "Synthetic schema example; not a factual source"
+  },
+  "collected_at": "2026-11-09T00:00:00Z",
+  "evidence": "Synthetic placeholder for validating exchange format. Not a research finding."
+}
