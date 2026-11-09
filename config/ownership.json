@@ -1,0 +1,17 @@
+{
+  "controller": [
+    "state/"
+  ],
+  "age": [
+    "config/ownership.json"
+  ],
+  "rde": [
+    "research/"
+  ],
+  "worker_A": [
+    "research/"
+  ],
+  "worker_B": [
+    "app/"
+  ]
+}
