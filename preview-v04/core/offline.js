@@ -1,7 +1,10 @@
 export async function initializeOffline(status){
  if(!('serviceWorker' in navigator)){if(status)status.textContent='Offline storage unavailable';return;}
  try{
-  const root=new URL('../',import.meta.url);const registration=await navigator.serviceWorker.register(new URL('sw.js',root),{scope:root.pathname,updateViaCache:'none'});
+  const root=new URL('../',import.meta.url);
+  // This isolated preview intentionally does not register the production Hub worker.
+  if(root.pathname.includes('/preview-v04/')){if(status)status.textContent='Online integration preview · offline test pending';return;}
+const registration=await navigator.serviceWorker.register(new URL('sw.js',root),{scope:root.pathname,updateViaCache:'none'});
   const ready=await navigator.serviceWorker.ready;
   const updateStatus=async()=>{const {request}=await import('./worker-channel.js');const result=await request('STATUS');if(status)status.textContent=result.complete?`Ready offline · ${result.count} files`:`Preparing offline · ${result.count}/${result.total}`;};
   navigator.serviceWorker.addEventListener('controllerchange',()=>updateStatus().catch(()=>{}));
