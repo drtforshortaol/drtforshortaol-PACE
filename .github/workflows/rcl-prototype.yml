@@ -1,0 +1,20 @@
+name: RCL prototype static checks
+on:
+  push:
+    branches:
+      - 'rcl/worker-b-prototype-*'
+  pull_request:
+    paths:
+      - 'rcl/prototype/**'
+      - '.github/workflows/rcl-prototype.yml'
+jobs:
+  static-checks:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: node --test rcl/prototype/tests/*.test.mjs
