@@ -4,8 +4,9 @@ export async function initializeOffline(status){
  try{
   const registration=await navigator.serviceWorker.register(new URL('sw.js',root),{scope:root.pathname});
   await navigator.serviceWorker.ready;
-  // Installation only succeeds after every required preview asset is cached.
-  if(status)status.textContent='Offline preview ready';
+  const required=['index.html','registry.json','environment.json','search-index.json','core/hub.js','core/hub.css','core/navigation.js','core/offline.js','core/app-contract.js','apps/rcl-component-lab/index.html','apps/rcl-component-lab/manifest.json','shared/rcl/card-search.js'];
+  const complete=(await Promise.all(required.map(p=>caches.match(new URL(p,root))))).every(Boolean);
+  if(status)status.textContent=complete?'Offline preview ready':'Offline preparation incomplete — retry online';
   return registration;
  }catch(error){
   if(status)status.textContent='Offline preparation failed — retry online';
