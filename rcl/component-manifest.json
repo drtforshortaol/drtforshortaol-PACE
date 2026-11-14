@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 1,
+  "name": "RCL",
+  "stage": "prototype-first",
+  "components": [
+    {
+      "id": "app-shell",
+      "status": "planned"
+    },
+    {
+      "id": "hub-navigation",
+      "status": "planned"
+    },
+    {
+      "id": "content-card",
+      "status": "planned"
+    },
+    {
+      "id": "search",
+      "status": "planned"
+    }
+  ],
+  "workflow": [
+    "prototype",
+    "owner-review",
+    "refine",
+    "complete",
+    "validate",
+    "publish"
+  ],
+  "productionChangesAllowed": false
+}
