@@ -22,3 +22,5 @@ test('prototype contains no remote runtime dependencies',()=>{
   assert.doesNotMatch(html,/<script[^>]+src="https?:/i);
   assert.doesNotMatch(html,/<link[^>]+href="https?:/i);
 });
+
+test('sample cards render without JavaScript',()=>{for(const title of ['Ocean science','Marine habitats','Visitor guidance'])assert.match(html,new RegExp('<summary>'+title+'</summary>'));assert.match(html,/<noscript>/)});
