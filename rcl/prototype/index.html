@@ -8,5 +8,5 @@ const host=document.getElementById('cards'),search=document.getElementById('sear
 function render(){const q=search.value.trim().toLowerCase();const matches=config.cards.filter(c=>(c.title+' '+c.body).toLowerCase().includes(q));host.replaceChildren(...matches.map(c=>{const d=document.createElement('details'),s=document.createElement('summary'),p=document.createElement('p');s.textContent=c.title;p.textContent=c.body;d.append(s,p);return d}));document.getElementById('empty').hidden=!!matches.length}
 search.addEventListener('input',render);render();
 document.getElementById('hub').onclick=()=>location.assign(config.hubUrl);
-document.getElementById('back').onclick=()=>{if(history.length>1&&document.referrer&&new URL(document.referrer).origin===location.origin)history.back();else location.assign(config.hubUrl)};
+document.getElementById('back').onclick=()=>{let sameOrigin=false;try{sameOrigin=Boolean(document.referrer)&&new URL(document.referrer).origin===location.origin}catch{}if(history.length>1&&sameOrigin)history.back();else location.assign(config.hubUrl)};
 </script></body></html>
