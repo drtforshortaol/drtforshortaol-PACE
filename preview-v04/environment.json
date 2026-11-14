@@ -1,0 +1,7 @@
+{
+  "environment": "developer",
+  "version": "0.4.0",
+  "stage": "RCL isolated integration preview",
+  "namespace": "rcl-v04-preview",
+  "developer": true
+}
