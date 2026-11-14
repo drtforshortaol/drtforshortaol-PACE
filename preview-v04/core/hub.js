@@ -1,5 +1,5 @@
 import {restoredHubState,captureVisit,visitContext} from './navigation.js';
-import {initializeOffline} from './offline.js';
+import {initializeOffline} from './offline.js?v=20261114b';
 const view=document.querySelector('#view');const registry=await fetch('registry.json').then(r=>{if(!r.ok)throw Error('Registry unavailable');return r.json();});
 const environment=await fetch('environment.json').then(r=>r.json());document.querySelector('#environment').textContent=`${environment.environment==='tester'?'Read-only tester':'Owner development'} · ${environment.stage}`;
 const e=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
